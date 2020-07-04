@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -5,6 +11,7 @@ body {
 }
 main {
   padding: 1rem;
+  margin: auto;
 }
 .main-header {
   width: 100%;
@@ -24,48 +31,100 @@ main {
   padding: 0;
   display: flex;
 }
+
 .main-header-item {
   margin: 0 1rem;
   padding: 0;
-  margin: 0 1.5rem;
 }
+
 .main-header-item a {
   text-decoration: none;
   color: yellowgreen;
 }
+
 .main-header-item a:hover,
 .main-header-item a:active,
-.main-header-item a:active {
+.main-header-item a.active {
   color: red;
 }
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: stretch;
+}
+
+.card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.card_header,
+.card_content {
+  padding: 1rem;
+}
+
+.card_header h1,
+.card_content h1,
+.card_content h2,
+.card_content p {
+  margin: 0;
+}
+
+.card_image {
+  width: 100%;
+}
+
+.card_image img {
+  width: 100%;
+}
+
+.card_actions {
+    padding: 1rem;
+    text-align: center;
+}
+
+.card_actions button,
+.card_actions a {
+    margin: 0 0.25rem;
+}
+
 .product-form{
   width: 20 rem;
   max-width: 90%;
   margin: auto;
 }
 
-.form-control {
-  margin: 1rem 0;
-}
-.form-control label,
-.form-control input {
-  display: block;
-  width: 100%;
-}
-.form-control input {
-  border: 3px solid bisque;
-  font: inherit;
-  border-radius: 5px;
+.product-item {
+  width: 20rem;
+  max-width: 95%;
+  margin: 1rem;
 }
 
-button {
+.product-title {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.product-price {
+  text-align: center;
+  color: #4d4d4d;
+  margin-bottom: 0.5rem;
+}
+
+.product__description {
+  text-align: center;
+}
+
+.btn {
   font: inherit;
   border: 1px solid gray;
   background: white;
   border-radius: 5px;
+  cursor: pointer;
 }
-button:hover,
-button:active {
+.btn:hover,
+.btn:active {
   background-color: coral;
   color: #ffffff;
 }
