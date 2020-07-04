@@ -4,17 +4,21 @@ const path = require('path');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', 'views');
+
 //Imports
-const adminRoutes = require('./Routes/admin');
+const adminData = require('./Routes/admin');
 const shopRoutes = require('./Routes/shop');
 const rootDir = require('./utility/helper');
+
 
 //Parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //routes
-app.use('/admin', adminRoutes);
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
 app.use((req, res, next) => {
