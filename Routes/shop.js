@@ -6,8 +6,8 @@ const router  = require('express').Router();
 const adminData = require('./admin');
 
 router.get('/', (req, res, next) => {
-  console.log(adminData.database);
-  res.sendFile(path.join(rootDir, '../secondServer', 'views', 'shop.html'));
+  const products = adminData.database;
+  res.render('shop', {prods: products, docTitle: 'Shop'});
 });
 
 module.exports = router;

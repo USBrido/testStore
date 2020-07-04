@@ -4,7 +4,7 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(name="viewport", content="width=device-width, initial-scale=1.0")
     meta(http-equiv="X-UA-Compatible", content="ie=edge")
-    title Document
+    title #{docTitle}
     link(rel="stylesheet", href="./css/main.css")
   body
     header.main-header
@@ -14,3 +14,15 @@ html(lang="en")
             a.active(href="/") Shop
           li.main-header-item
             a.active(href="/admin/add-product") Add Product
+    main
+      .grid
+        article.card.product-item
+          header.card_header
+            h1.product_title Great Book
+        .card_image
+          img(src="", alt="")
+        .card_content
+          h2.product_price $19.00
+          p.product_description Text text text text
+        .card_actions
+          .button.btn Add to Cart
