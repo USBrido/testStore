@@ -1,11 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const handlebars = require('express-handlebars');
 
 const app = express();
-app.engine('handlebars', handlebars({layoutsDir: 'views/layouts/', defaultLayout: 'main-layout.handlebars'}));
-app.set('view engine', 'handlebars');
+app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 //Imports
