@@ -1,19 +1,11 @@
 const path = require('path');
-const rootDir = require('../utility/helper');
+const productsController = require('../controllers/product');
 const router = require('express').Router();
 
-//mock database
-const database = [];
 
 
-router.get('/add-product', (req, res, next) => {
-  res.render('add-product', { pageTitle: 'Add Product', path: '/admin/add-product', activeProduct: true });
-});
+router.get('/add-product', productsController.getAddProduct);
 
-router.post('/add-product', (req, res, next) => {
-  database.push({ title :req.body.title });
-  res.redirect('/');
-});
+router.post('/add-product', productsController.postAddProduct);
 
-exports.routes = router;
-exports.database = database;
+module.exports = router;
