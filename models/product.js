@@ -14,7 +14,7 @@ const getProductsFromFile = (callback) => {
     }
     callback(JSON.parse(fileContent));
   });
-}
+};
 
 module.exports = class Product {
   constructor(t) {
