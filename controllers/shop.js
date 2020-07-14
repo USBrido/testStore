@@ -6,15 +6,13 @@ exports.getProducts = (req, res) => {
       prods: products,
       pageTitle: "Shop",
       path: "/",
-      hasProducts: products.length > 0,
-      activeShop: true
     });
   });
 };
 
 exports.getCart = (req, res) => {
-  res.render('/shop/cart', {
-    pageTitle: "Cart",
+  res.render('shop/cart', {
+    pageTitle: "Your Cart",
     path: "/cart"
   });
 };
@@ -25,8 +23,13 @@ exports.getIndex = (req, res) => {
       prods: products,
       pageTitle: "Shop",
       path: "/",
-      hasProducts: products.length > 0,
-      activeShop: true
     });
+  });
+};
+
+exports.getCheckout = (req, res) => {
+  res.render('shop/checkout', {
+    pageTitle: "Checkout",
+    path: "/checkout"
   });
 };

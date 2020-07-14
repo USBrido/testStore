@@ -1,8 +1,28 @@
 <%- include('../_partials/_header.ejs')%>
 
 <main>
-  
+  <% if(prods.length >0) { %>
+  <div class="grid">
+    <% for (let product of prods) { %>
+    <article class="card product-tem">
+      <header class="card-header">
+        <h1 class="product-title"><%= product.title %></h1>
+      </header>
+      <div class="card-image">
+        <img src="<%= product.imageUrl %>" alt="<%= product.title %>" />
+      </div>
+      <div class="card-content">
+        <h2 class="product price">$<%= product.price %></h2>
+        <p class="product-description"><%= product.description %></p>
+      </div>
+      <div class="card-actions">
+        <button class="btn">Add to cart</button>
+      </div>
+    </article>
+    <% } %>
+  </div>
+  <% } else { %>
+  <h1>No products found!</h1>
+  <% }%>
 </main>
-
-
 <%- include('../_partials/_footer.ejs')%>

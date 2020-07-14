@@ -5,7 +5,7 @@ const router = require('express').Router();
 
 router.get('/add-product', adminController.getAddProduct);
 
-router.get('/products', adminController.getAdminProducts);
+router.get('/products', adminController.getProducts);
 
 router.post('/add-product', adminController.postAddProduct);
 
