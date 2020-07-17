@@ -4,13 +4,11 @@
   <h1><%= product.title %></h1>
   <hr>
   <div>
-    <img src="<%= product.imgUrl %>" alt="<%= product.title %>">
+    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
   </div>
   <h2> <%= product.price  %></h2>
   <p> <%= product.description  %></p>
-  <form action="/cart" method="POST">
-    <button class="btn" type="submit">Add to cart</button>
-  </form>
+  <%- include('../_partials/_addToCart.ejs') %>
 </main>
 
 
