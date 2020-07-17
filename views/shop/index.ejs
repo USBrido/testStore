@@ -16,7 +16,9 @@
         <p class="product-description"><%= product.description %></p>
       </div>
       <div class="card-actions">
-        <button class="btn">Add to cart</button>
+          <form action="/admin/deleteProduct" method="POST"> 
+            <button class="btn">Add to cart</button>
+          </form>
       </div>
     </article>
     <% } %>
