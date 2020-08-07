@@ -11,8 +11,9 @@ const getProductsFromFile = (callback) => {
   fs.readFile(p, (err, fileContent) => {
     if (err) {
       return callback([]);
+    } else {
+      callback(JSON.parse(fileContent));
     }
-    callback(JSON.parse(fileContent));
   });
 };
 
@@ -27,12 +28,24 @@ module.exports = class Product {
   }
 
   save() {
-    this.id = Math.random().toString();
+    
     getProductsFromFile(products => {
-      products.push(this);
-      fs.writeFile(p, JSON.stringify(products), (error) => {
-        console.log(error);
-      });
+      if (this.id) {
+        const existingProductIndex = products.findIndex(
+          prod => prod.id === this.id
+        );
+        const updatedProducts = [...products];
+        updatedProducts[existingProductIndex] = this;
+        fs.writeFile(p, JSON.stringify(updatedProducts), (error) => {
+          console.log(error);
+        });
+      } else {
+        this.id = Math.random().toString();
+        products.push(this);
+        fs.writeFile(p, JSON.stringify(products), (error) => {
+          console.log(error);
+        });
+      }
     });
   }
 
