@@ -42,7 +42,6 @@ exports.getCart = (req, res, next) => {
   });
 };
 
-
 exports.postCart = (req, res) => {
   const prodId = req.body.productId;
   Product.fetchById(prodId, (product) => {
@@ -53,7 +52,10 @@ exports.postCart = (req, res) => {
 
 exports.postCartDeleteProduct = (req, res) => {
   const prodId = req.body.productId;
-
+  Product.fetchById(prodId, product => {
+    Cart.deleteProduct(prodId, product.price);
+    res.redirect('/cart');
+  });
 };
 
 exports.getIndex = (req, res) => {
