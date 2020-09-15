@@ -16,12 +16,16 @@ exports.getProducts = (req, res) => {
 
 exports.getProductById = (req, res) => {
   const productId = req.params.productId;
-  Product.fetchById(productId, product => {
-    res.render('shop/productDetail', {
-      pageTitle: product.title,
-      product: product,
-      path: "/products"});
-  });
+  Product.fetchById(productId)
+    .then(([product]) => {
+      res.render('shop/productDetail', {
+        product: product[0],
+        pageTitle: product[0].title,
+        path: "/products"});
+    })
+    .catch(error => {
+      console.log(error);
+    });
 };
 
 exports.getCart = (req, res, next) => {
