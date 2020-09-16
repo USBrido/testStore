@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 
 const errorController = require('./controllers/404');
-const db = require('./utility/database');
+const sequelize = require('./utility/database');
 
 const app = express();
 app.set('view engine', 'ejs');
@@ -22,6 +22,13 @@ app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 
 app.use(errorController.pagenotfoundController);
+
+sequelize.sync()
+  .then(result => {
+  })
+  .catch(error => {
+    console.log(error);
+  });
 
 app.listen(3000, () => {
   console.log('listening to port 3000');
