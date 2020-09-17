@@ -72,11 +72,13 @@ exports.postCart = (req, res) => {
         })
         .catch(error => console.log(error));
     })
+    .then(() => {
+      res.redirect('/cart');
+    })
     .catch(error => console.log(error));
   // Product.fetchById(prodId, (product) => {
   //   Cart.addProduct(prodId, product.price);
   // });
-  // res.redirect('/cart');
 };
 
 exports.postCartDeleteProduct = (req, res) => {
