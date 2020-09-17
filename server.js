@@ -47,7 +47,8 @@ Cart.belongsToMany(Product, {through: CartItem});
 Product.belongsToMany(Cart, {through: CartItem});
 
 sequelize
-  .sync({force: true})
+  .sync()
+  // .sync({force: true})
   .then(result => {
     return User.findByPk(1);
   })
@@ -58,8 +59,9 @@ sequelize
     return user;
   })
   .then(user => {
-    console.log(user);
-    app.listen(3000, () => console.log('listening to port 3000'));
+    // console.log(user);
+    return user.createCart();
   })
+  .then((app.listen(3000, () => console.log('listening to port 3000'))))
   .catch(error => console.log(error));
 
