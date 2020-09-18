@@ -104,16 +104,11 @@ exports.getIndex = (req, res) => {
     .catch(error => console.log(error));
 };
 
-exports.getCheckout = (req, res) => {
-  res.render('shop/checkout', {
-    pageTitle: "Checkout",
-    path: "/checkout"
-  });
-};
-
 exports.postOrder = (req, res) => {
+  let fetchedCart;
   req.user.getCart()
     .then(cart => {
+      fetchedCart = cart;
       return cart.getProducts();
     })
     .then(products => {
@@ -125,15 +120,22 @@ exports.postOrder = (req, res) => {
             return product;
           }));
         })
+        .then(fetchedCart.setProducts(null))
         .then(res.rediret('/orders'))
         .catch(error => console.log(error));
-    })
-    .catch(error => console.log(error));
+    });
 };
 
 exports.getOrders = (req, res) => {
-  res.render('shop/orders', {
-    pageTitle: "Your Orders",
-    path: "/orders"
-  });
+  req.user.getOrders({include: ['products']})
+    .then(orders =>{
+      res.render('shop/orders', {
+        pageTitle: "Your Orders",
+        path: "/orders",
+        orders: orders
+      });
+    })
+    .catch(error => console.log(error));
+
+  
 };
