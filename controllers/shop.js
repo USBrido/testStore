@@ -91,9 +91,6 @@ exports.postCartDeleteProduct = (req, res) => {
     })
     .then(res.redirect('/cart'))
     .catch(error => console.log(error));
-  Product.fetchById(prodId, product => {
-    Cart.deleteProduct(prodId, product.price);
-  });
 };
 
 exports.getIndex = (req, res) => {
