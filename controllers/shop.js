@@ -1,5 +1,4 @@
 const Product = require("../models/product");
-const Cart = require('../models/cart');
 
 exports.getProducts = (req, res) => {
   Product.findAll()
@@ -102,9 +101,7 @@ exports.getIndex = (req, res) => {
         path:'/'
       });
     })
-    .catch(error => {
-      console.log(error);
-    });
+    .catch(error => console.log(error));
 };
 
 exports.getCheckout = (req, res) => {
@@ -112,6 +109,26 @@ exports.getCheckout = (req, res) => {
     pageTitle: "Checkout",
     path: "/checkout"
   });
+};
+
+exports.postOrder = (req, res) => {
+  req.user.getCart()
+    .then(cart => {
+      return cart.getProducts();
+    })
+    .then(products => {
+      return req.user
+        .createOrder()
+        .then(order => {
+          return order.addProducts(products.map(product => {
+            product.orderItem = {quantity: product.cartItem.quantity};
+            return product;
+          }));
+        })
+        .then(res.rediret('/orders'))
+        .catch(error => console.log(error));
+    })
+    .catch(error => console.log(error));
 };
 
 exports.getOrders = (req, res) => {
