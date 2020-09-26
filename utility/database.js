@@ -2,16 +2,29 @@ const mongodb = require('mongodb');
 
 const MongoClient = mongodb.MongoClient;
 
+let _db;
+
 const mongoConnect = callback => {
-  MongoClient.connect('mongodb+srv://admin:server01@cluster0.7vkv1.mongodb.net/teststore?retryWrites=true&w=majority')
+  MongoClient.connect('mongodb+srv://admin:server01@cluster0.7vkv1.mongodb.net/shop?retryWrites=true&w=majority')
     .then(client => {
       console.log("Connected to database");
-      callback(client);
+      _db = client.db();
+      callback();
     })
-    .catch(error => console.log(error));
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
 };
 
-module.exports = mongoConnect;
+const getDb = () => {
+  if (_db) {
+    return _db;
+  }
+  throw 'No database found';
+};
+
+module.exports = {mongoConnect, getDb};
 
 // const Sequelize = require('sequelize');
 

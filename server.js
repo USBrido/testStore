@@ -85,7 +85,6 @@ app.use(errorController.pagenotfoundController);
 //   .then((app.listen(3000, () => console.log('listening to port 3000'))))
 //   .catch(error => console.log(error));
 
-mongoConnect((client) => {
-  console.log(client);
+mongoConnect(() => {
   app.listen(3000);
 });
