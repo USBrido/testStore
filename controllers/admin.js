@@ -69,20 +69,20 @@ exports.postAddProduct = (req, res) => {
 //     .catch(error => console.log(error));
 // };
 
-// exports.getProducts = (req, res) => {
-//   req.user
-//     .getProducts()
-//     .then(products => {
-//       res.render("admin/products", {
-//         prods: products,
-//         pageTitle: "Admin Products",
-//         path: "/admin/products"
-//       });
-//     })
-//     .catch(error => {
-//       console.log(error);
-//     });
-// };
+exports.getProducts = (req, res) => {
+  Product
+    .fetchAll()
+    .then(products => {
+      res.render("admin/products", {
+        prods: products,
+        pageTitle: "Admin Products",
+        path: "/admin/products"
+      });
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
 // exports.postDeleteProduct = (req, res) => {
 //   const prodId = req.body.productId;
