@@ -59,8 +59,8 @@ class Product {
     return db
       .collection('products')
       .deleteOne({_id: new mongoDb.ObjectId(prodId)})
-      .then(result => {
-        console.log('Deleted', result);
+      .then(product => {
+        console.log("deleted",product);
       })
       .catch(error => console.log(error));
   }
