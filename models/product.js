@@ -45,7 +45,7 @@ class Product {
     const db = getDb();
     return db
       .collection('products')
-      .find({_id: new mongoDb.ObjectId(prodId)})
+      .findOne({_id: new mongoDb.ObjectId(prodId)})
       .next()
       .then(product => {
         console.log(product);

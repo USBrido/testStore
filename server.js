@@ -6,6 +6,7 @@ const errorController = require('./controllers/404');
 
 //MongoDB
 const mongoConnect = require('./utility/database').mongoConnect;
+const User = require('./models/user');
 
 // Mysql and Sequelize includes
 // const sequelize = require('./utility/database');
@@ -31,12 +32,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //User middlewear
 app.use((req, res, next) => {
-  // User.findByPk(1)
-  //   .then(user => {
-  //     req.user = user;
-  //     next();
-  //   })
-  //   .catch(error => console.log(error));
+  User.findById('5f71316b298c608a915c4a17')
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(error => console.log(error));
   next();
 });
 
