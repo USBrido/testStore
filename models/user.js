@@ -26,12 +26,11 @@ class User {
 
   }
 
-  static findUserbyId(userId) {
+  static findUserById(userId) {
     const db = getDb();
     return db
       .collection('users')
       .findOne({_id: new mongoDb.ObjectId(userId)})
-      .next()
       .then(user => {
         console.log(user);
         return user;
