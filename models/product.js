@@ -47,7 +47,6 @@ class Product {
     return db
       .collection('products')
       .findOne({_id: new mongoDb.ObjectId(prodId)})
-      .next()
       .then(product => {
         console.log(product);
         return product;
