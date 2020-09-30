@@ -51,7 +51,8 @@ exports.postCart = (req, res) => {
     .then(product => {
       return req.user.addToCart(product);
     })
-    .then(result => console.log(result));
+    .then(result => console.log(result))
+    .catch(error => console.log(error));
   // let fetchedCart;
   // let newQty = 1;
   // req.user
