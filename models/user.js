@@ -1,29 +1,20 @@
 const mongoDb = require('mongodb');
 const getDb = require('../utility/database').getDb;
 
+const ObjectId = mongoDb.ObjectId;
+
 class User {
   constructor(username, email, cart, id) {
     this.name = username;
     this.email = email;
     this.cart = cart;
-    this._id = id ? new mongoDb.ObjectId(id) : null;
+    this._id = id;
   }
   save() {
     const db = getDb();
-    let dbOp;
-    if (this._id) {
-      //update
-      dbOp = db
-        .collection('users')
-        .updateOne({_id: this._id}, {$set: this});
-    } else {
-      dbOp = db
-        .collection('users')
-        .insertOne(this);
-    }
-    return dbOp
-      .then(result => console.log(result))
-      .catch(error => console.log(error));
+    return db
+      .collection('users')
+      .insertOne(this);
 
   }
 
@@ -35,14 +26,17 @@ class User {
     const db = getDb();
     return db
       .collection('users')
-      .updateOne({_id: new mongoDb.ObjectId(this._id)}, {$set: {cart: updatedCart}});
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: updatedCart }}
+      );
   }
 
   static findUserById(userId) {
     const db = getDb();
     return db
       .collection('users')
-      .findOne({_id: new mongoDb.ObjectId(userId)})
+      .findOne({_id: new ObjectId(userId)})
       .then(user => {
         console.log(user);
         return user;

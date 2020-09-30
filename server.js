@@ -32,9 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //User middlewear
 app.use((req, res, next) => {
-  User.findUserById('5f71316b298c608a915c4a17')
+  User.findUserById("5f71316b298c608a915c4a17")
     .then(user => {
-      req.user = new User(user.name, user.email, user.cart, user.id);
+      req.user = new User(user.name, user.email, user.cart, user._id);
       next();
     })
     .catch(error => console.log(error));

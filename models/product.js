@@ -18,7 +18,9 @@ class Product {
       //update
       dbOp = db
         .collection('products')
-        .updateOne({_id: this._id}, {$set: this});
+        .updateOne(
+          {_id: this._id},
+          {$set: this});
     } else {
       dbOp = db
         .collection('products')
