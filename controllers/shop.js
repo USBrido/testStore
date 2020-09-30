@@ -31,7 +31,7 @@ exports.getCart = (req, res, next) => {
   req.user
     .getCart()
     .then(cart => {
-      return cart.getProducts()
+      return cart
         .then(products => {
           res.render('shop/cart', {
             path: '/cart',
