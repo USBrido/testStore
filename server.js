@@ -2,11 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 
+
+const mongoose = require('mongoose');
 const errorController = require('./controllers/404');
 
 //MongoDB
-const mongoConnect = require('./utility/database').mongoConnect;
-const User = require('./models/user');
+// const User = require('./models/user');
 
 // Mysql and Sequelize includes
 // const sequelize = require('./utility/database');
@@ -31,14 +32,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //User middlewear
-app.use((req, res, next) => {
-  User.findUserById("5f71316b298c608a915c4a17")
-    .then(user => {
-      req.user = new User(user.name, user.email, user.cart, user._id);
-      next();
-    })
-    .catch(error => console.log(error));
-});
+// app.use((req, res, next) => {
+//   User.findUserById("5f71316b298c608a915c4a17")
+//     .then(user => {
+//       req.user = new User(user.name, user.email, user.cart, user._id);
+//       next();
+//     })
+//     .catch(error => console.log(error));
+// });
 
 //routes
 app.use('/admin', adminRoutes);
@@ -77,6 +78,7 @@ app.use(errorController.pagenotfoundController);
 //   .then((app.listen(3000, () => console.log('listening to port 3000'))))
 //   .catch(error => console.log(error));
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect('mongodb+srv://admin:server01@cluster0.7vkv1.mongodb.net/shop?retryWrites=true&w=majority')
+  .then(app.listen(3000))
+  .catch(error => console.log(error));
