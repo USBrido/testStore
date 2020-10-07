@@ -74,29 +74,16 @@ exports.getIndex = (req, res) => {
 };
 
 exports.postOrder = (req, res) => {
-  let fetchedCart;
-  req.user.getCart()
-    .then(cart => {
-      fetchedCart = cart;
-      return cart.getProducts();
-    })
-    .then(products => {
-      return req.user
-        .createOrder()
-        .then(order => {
-          return order.addProducts(products.map(product => {
-            product.orderItem = {quantity: product.cartItem.quantity};
-            return product;
-          }));
-        })
-        .then(fetchedCart.setProducts(null))
-        .then(res.rediret('/orders'))
-        .catch(error => console.log(error));
-    });
+  req.user
+    .addOrder()
+    .then(res.redirect('/orders'))
+    .catch(error => console.log(error));
+    
 };
 
 exports.getOrders = (req, res) => {
-  req.user.getOrders({include: ['products']})
+  req.user
+    .getOrders()
     .then(orders =>{
       res.render('shop/orders', {
         pageTitle: "Your Orders",
