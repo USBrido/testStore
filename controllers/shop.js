@@ -30,17 +30,12 @@ exports.getProductById = (req, res) => {
 exports.getCart = (req, res, next) => {
   req.user
     .getCart()
-    .then(cart => {
-      return cart
-        .then(products => {
-          res.render('shop/cart', {
-            path: '/cart',
-            pageTitle: 'Your Cart',
-            products: products
-          });
-        })
-        .catch(error => console.log(error));
-
+    .then(products => {
+      res.render('shop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        products: products
+      });
     })
     .catch(error => console.log(error));
 };
@@ -51,49 +46,17 @@ exports.postCart = (req, res) => {
     .then(product => {
       return req.user.addToCart(product);
     })
-    .then(result => console.log(result))
+    .then(result => {
+      console.log(result)
+      res.redirect('/cart');
+    })
     .catch(error => console.log(error));
-  // let fetchedCart;
-  // let newQty = 1;
-  // req.user
-  //   .getCart()
-  //   .then(cart => {
-  //     fetchedCart = cart;
-  //     return cart.getProducts({ where: {id: prodId}});
-  //   })
-  //   .then(products => {
-  //     let product;
-  //     if (products.length > 0) {
-  //       product = products[0];
-  //     }
-  //     if (product) {
-  //       const oldQty = product.cartItem.quantity;
-  //       newQty = oldQty + 1;
-  //       return product;
-  //     }
-  //     return Product.findByPk(prodId);
-  //   })
-  //   .then(product => {
-  //     return fetchedCart.addProduct(product, {
-  //       through: {quantity: newQty}
-  //     });
-  //   })
-  //   .then(() => {
-  //     res.redirect('/cart');
-  //   })
-  //   .catch(error => console.log(error));
 };
 
 exports.postCartDeleteProduct = (req, res) => {
   const prodId = req.body.productId;
-  req.user.getCart()
-    .then(cart => {
-      return cart.getProducts({ where: {id: prodId}});
-    })
-    .then(products => {
-      const product = products[0];
-      return product.cartItem.destroy();
-    })
+  req.user
+    .deleteItemFromCart(prodId)
     .then(res.redirect('/cart'))
     .catch(error => console.log(error));
 };
