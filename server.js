@@ -25,6 +25,8 @@ app.set('views', 'views');
 //Imports
 const adminRoutes = require('./Routes/admin');
 const shopRoutes = require('./Routes/shop');
+const authRoutes = require('./Routes/auth');
+
 
 //Parser
 app.use(bodyParser.urlencoded({extended: false}));
@@ -44,6 +46,7 @@ app.use((req, res, next) => {
 //routes
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
+app.use(authRoutes);
 
 app.use(errorController.pagenotfoundController);
 
