@@ -184,7 +184,7 @@ main {
 }
 
 .product-form{
-  width: 20 rem;
+  width: 20rem;
   max-width: 50%;
   margin: auto;
   display: block;
@@ -262,4 +262,11 @@ main {
   #side-menu-toggle {
     display: none;
   }
+}
+
+.login-form{
+  width: 20rem;
+  max-width: 90%;
+  margin: auto;
+  display: block;
 }
