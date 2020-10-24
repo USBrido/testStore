@@ -40,7 +40,17 @@ app.use(session({secret:'longstringvaluesecret',
   store: store}));
 
 //User middlewear
-  
+app.use((req, res, next) =>{
+  if (req.session.user) {
+    User.findById(req.session.user._id)
+      .then(user => {
+        req.user =  user;
+        next();
+      })
+      .catch(error => console.log(error));
+  }
+  return next();
+});
 
 //routes
 app.use('/admin', adminRoutes);
