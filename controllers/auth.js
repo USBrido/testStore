@@ -21,7 +21,7 @@ exports.postLogin = (req, res) => {
 
 exports.postLogout = (req, res) => {
   
-  req.session.destroy(() => {
+  req.session.destroy(error => {
     res.redirect('/');
   });
 };

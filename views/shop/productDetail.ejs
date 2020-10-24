@@ -8,7 +8,9 @@
   </div>
   <h2> <%= product.price  %></h2>
   <p> <%= product.description  %></p>
-  <%- include('../_partials/_addToCart.ejs') %>
+  <% if(isAuthenticated) {%>
+    <%- include('../_partials/_addToCart.ejs', {product: product})%>
+  <%}%>
 </main>
 
 
