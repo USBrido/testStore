@@ -19,7 +19,7 @@
           <a href="/products/<%= product._id %>" class="btn">Details</a>
           <% if(isAuthenticated) {%>
             <%- include('../_partials/_addToCart.ejs', {product: product})%>
-            <%}%>
+          <%}%>
           </div>
     </article>
     <% } %>

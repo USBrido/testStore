@@ -34,22 +34,26 @@ const authRoutes = require('./Routes/auth');
 //Parser
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({secret:'longstringvaluesecret',
-  resave: false,
-  saveUninitialized: false,
-  store: store}));
+app.use(
+  session({
+    secret:'longstringvaluesecret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 
 //User middlewear
 app.use((req, res, next) =>{
-  if (req.session.user) {
-    User.findById(req.session.user._id)
-      .then(user => {
-        req.user =  user;
-        next();
-      })
-      .catch(error => console.log(error));
+  if (!req.session.user) {
+    return next();
   }
-  return next();
+  User.findById(req.session.user._id)
+    .then(user => {
+      req.user =  user;
+      next();
+    })
+    .catch(error => console.log(error));
 });
 
 //routes
