@@ -24,7 +24,10 @@
             <% if(!isAuthenticated) {%>
               <li class="main-header-item">
               <a class="<%= path === '/login' ? 'active' : '' %>" href='/login'>Login</a>
-            </li>
+              </li>
+              <li class="main-header-item">
+                <a class="<%= path === '/signup' ? 'active' : '' %>" href='/signup'>Signup</a>
+              </li>
             <%} else {%>
             <li class="main-header-item">
               <form action="/logout" method="POST">
