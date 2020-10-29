@@ -14,7 +14,7 @@ exports.getSignup = (req, res) => {
     path: "/signup",
     isAuthenticated: req.isLoggedIn
   });
-}
+};
 
 exports.postLogin = (req, res) => {
   
