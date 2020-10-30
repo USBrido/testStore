@@ -31,6 +31,26 @@ exports.postLogin = (req, res) => {
 };
 
 exports.postSignup = (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
+  User.findOne({email: email})
+    .then(userDoc => {
+      if (userDoc) {
+        return res.redirect('/login');
+      }
+      const user = new User({
+        email: email,
+        password: password,
+        cart: { items: [] }
+      });
+      return user.save();
+    })
+    .then(result => {
+      res.redirect('/login');
+    })
+    .catch(error => console.log(error));
+
 
 };
 
