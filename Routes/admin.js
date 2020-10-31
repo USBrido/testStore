@@ -1,21 +1,23 @@
 const path = require('path');
 const express = require('express');
 const adminController = require('../controllers/admin');
+const isAuth = require('../middleware/isAuth');
 const router = require('express').Router();
+
 
 //routes for the admin side start with '/admin/' => '/admin/add-product'
 
 //route to get to the add product feature for the admin
-router.get('/add-product', adminController.getAddProduct);
+router.get('/add-product', isAuth, adminController.getAddProduct);
 //route to the products for the admin
-router.get('/products', adminController.getProducts);
+router.get('/products', isAuth, adminController.getProducts);
 //route to actually add the product for the admin
-router.post('/add-product', adminController.postAddProduct);
+router.post('/add-product', isAuth, adminController.postAddProduct);
 //route to get to the edit product for the admin
-router.get('/edit-product/:productId', adminController.getEditProduct);
+router.get('/edit-product/:productId', isAuth, adminController.getEditProduct);
 //route to actually edit the product
-router.post('/edit-product', adminController.postEditProduct);
+router.post('/edit-product', isAuth, adminController.postEditProduct);
 //route to actually delete the product
-router.post('/delete-product', adminController.postDeleteProduct);
+router.post('/delete-product', isAuth, adminController.postDeleteProduct);
 
 module.exports = router;

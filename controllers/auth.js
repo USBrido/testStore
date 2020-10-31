@@ -23,16 +23,20 @@ exports.postLogin = (req, res) => {
   const password = req.body.password;
   User.findOne({email: email})
     .then(user => {
-      if(!user) {
+      if (!user) {
         return  res.redirect("/login");
       } else {
         bcrypt.compare(password, user.password)
           .then(doMatch => {
             if (doMatch) {
-              return res.redirect('/');
-            } else {
-
+              req.session.isLoggedIn = true;
+              req.session.user = user;
+              return  req.session.save(error => {
+                // console.log(error);
+                res.redirect('/');
+              });
             }
+            res.redirect('/login');
           })
           .catch(error => {
             console.log(error);
@@ -40,13 +44,6 @@ exports.postLogin = (req, res) => {
           });
 
       }
-
-      req.session.isLoggedIn = true;
-      req.session.user = user;
-      req.session.save(error => {
-        // console.log(error);
-        res.redirect('/');
-      });
     })
     .catch(error => console.log(error));
 };
