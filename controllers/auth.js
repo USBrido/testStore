@@ -19,9 +19,28 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postLogin = (req, res) => {
-  
-  User.findById("5f7e3c372b780b9a766f3bfb")
+  const email = req.body.email;
+  const password = req.body.password;
+  User.findOne({email: email})
     .then(user => {
+      if(!user) {
+        return  res.redirect("/login");
+      } else {
+        bcrypt.compare(password, user.password)
+          .then(doMatch => {
+            if (doMatch) {
+              return res.redirect('/');
+            } else {
+
+            }
+          })
+          .catch(error => {
+            console.log(error);
+            res.redirect('/login');
+          });
+
+      }
+
       req.session.isLoggedIn = true;
       req.session.user = user;
       req.session.save(error => {
@@ -41,22 +60,21 @@ exports.postSignup = (req, res) => {
       if (userDoc) {
         return res.redirect('/login');
       }
-      return bcrypt.hash(password, 16);
-    })
-    .then(hashedPassword  => {
-      const user = new User({
-        email: email,
-        password: hashedPassword,
-        cart: { items: [] }
-      });
-      return user.save();
-    })
-    .then(result => {
-      res.redirect('/login');
+      return bcrypt
+        .hash(password, 16)
+        .then(hashedPassword  => {
+          const user = new User({
+            email: email,
+            password: hashedPassword,
+            cart: { items: [] }
+          });
+          return user.save();
+        })
+        .then(result => {
+          res.redirect('/login');
+        });
     })
     .catch(error => console.log(error));
-
-
 };
 
 exports.postLogout = (req, res) => {
