@@ -6,12 +6,17 @@ const session = require('express-session');
 const errorController = require('./controllers/404');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongodbURI = 'mongodb+srv://admin:server01@cluster0.7vkv1.mongodb.net/shop';
+const csrf = require('csurf');
+
 //MongoDB
 const User = require('./models/user');
 const store = new MongoDBStore({
   uri: mongodbURI,
   collection: 'sessions'
 });
+
+const csrfProtection = csrf();
+
 // Mysql and Sequelize includes
 // const sequelize = require('./utility/database');
 // const Product = require('./models/product');
@@ -43,6 +48,8 @@ app.use(
   })
 );
 
+app.use(csrfProtection);
+
 //User middlewear
 app.use((req, res, next) =>{
   if (!req.session.user) {
@@ -54,6 +61,12 @@ app.use((req, res, next) =>{
       next();
     })
     .catch(error => console.log(error));
+});
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
 });
 
 //routes
