@@ -7,6 +7,7 @@ const errorController = require('./controllers/404');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const mongodbURI = 'mongodb+srv://admin:server01@cluster0.7vkv1.mongodb.net/shop';
 const csrf = require('csurf');
+const flash = require('connect-flash')
 
 //MongoDB
 const User = require('./models/user');
@@ -49,6 +50,7 @@ app.use(
 );
 
 app.use(csrfProtection);
+app.use(flash());
 
 //User middlewear
 app.use((req, res, next) =>{
