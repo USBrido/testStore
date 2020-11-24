@@ -162,16 +162,57 @@ exports.getNewPassword = (res, req) => {
   const userId = req.params.userId;
   const password = req.params.password;
   const token = req.params.token;
-  User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}, _Id: userId});
-  let message = req.flash('error');
-  if (message.length > 0) {
-    message = message[0];
-  } else {
-    message = null;
-  }
-  res.render('auth/newPassword', {
-    pageTitle: "New Password",
-    path: "/newPassword",
-    errorMessage: message
-  });
+  User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()} })
+    .then(user => {
+      let message = req.flash('error');
+      if (message.length > 0) {
+        message = message[0];
+      } else {
+        message = null;
+      }
+      res.render('auth/newPassword', {
+        pageTitle: "New Password",
+        path: "/newPassword",
+        errorMessage: message,
+        userId: user._id.toString(),
+        passwordToken: token,
+      });
+    })
+    .catch(error => console.log(error));
+};
+
+exports.postNewPassword = (req, res) => {
+  const userId = req.body.userId;
+  const newPassword = req.body.password;
+  const passwordToken = req.body.passwordToken;
+  let resetUser;
+  User.findOne({resetToken: passwordToken,
+    resetTokenExpiration:{$gt: Date.now()},
+    _id: userId})
+    .then(user => {
+      resetUser = user;
+      return bcrypt.hash(newPassword, 16);
+    })
+    .then(hashedPassword => {
+      resetUser.password = hashedPassword;
+      resetUser.resetToken = undefined;
+      resetUser.resetTokenExpiration = undefined;
+      return resetUser.save();
+    })
+    .then(result => {
+      res.redirect('/login');
+      const email = resetUser.email;
+      return transporter.sendMail({
+        to: email,
+        from: 'welcome@teststore.com',
+        subject: 'Password reseted Successful',
+        html: `
+        <p>Your password has been successfully changed!</p>
+        `
+      });
+    })
+    .catch(error => console.log(error));
+
+
+
 };
