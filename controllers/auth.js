@@ -2,7 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendGridTrandsport = require('nodemailer-sendgrid-transport');
-const dotenv = require('dotenv');
+const dotenv = require('../.env');
 const crypto = require('crypto');
 
 
@@ -136,7 +136,7 @@ exports.postReset = (req, res) => {
           return res.redirect('reset');
         }
         user.resetToken = token;
-        user.resetTokenExpirartion = Date.now() + 10800000;
+        user.resetTokenExpiration = Date.now() + 10800000;
         return user.save();
       })
       .then(result => {
@@ -155,5 +155,23 @@ exports.postReset = (req, res) => {
       })
       .catch(error => console.log(error));
     
+  });
+};
+
+exports.getNewPassword = (res, req) => {
+  const userId = req.params.userId;
+  const password = req.params.password;
+  const token = req.params.token;
+  User.findOne({resetToken: token, resetTokenExpiration: {$gt: Date.now()}, _Id: userId});
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+  res.render('auth/newPassword', {
+    pageTitle: "New Password",
+    path: "/newPassword",
+    errorMessage: message
   });
 };
