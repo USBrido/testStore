@@ -1,16 +1,50 @@
 const express = require('express');
 const authController = require('../controllers/auth');
 const router = express.Router();
+const {check } = require('express-validator/check');
+const User = require('../models/user');
+
 
 router.get('/login', authController.getLogin);
 
 router.get('/signup', authController.getSignup);
 
-router.post('/login', authController.postLogin);
+router.post('/login',
+  [
+    check('email')
+      .isEmail()
+      .withMessage('Please, enter a valid email'),
+    check('password')
+      .isLength({min: 5})
+      .withMessage('Please, enter a valid password')
+  ], authController.postLogin);
 
 router.post('/logout', authController.postLogout);
 
-router.post('/signup', authController.postSignup);
+router.post(
+  '/signup',
+  [
+    check('email')
+      .isEmail()
+      .withMessage('Please, enter a valid email')
+      .custom((value, {req}) => {
+        return User.findOne({email: value})
+          .then(userDoc => {
+            if (userDoc) {
+              return Promise.reject('E-mail already registered');
+            }
+          });
+      }),
+    check('password')
+      .isLength({min: 5})
+      .withMessage('Please, enter a valid password'),
+    check('confirmPassword').custom((value, {req}) => {
+      if (value !== req.body.password) {
+        throw new Error('Password does not match');
+      }
+      return true;
+    })
+  ], authController.postSignup);
 
 router.get('/reset', authController.getReset);
 

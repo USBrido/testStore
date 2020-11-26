@@ -2,8 +2,6 @@ const mongoDb = require("mongodb");
 
 const Product = require("../models/product");
 
-const ObjectId = mongoDb.ObjectId;
-
 exports.getAddProduct = (req, res) => {
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
