@@ -39,7 +39,9 @@ exports.getSignup = (req, res) => {
   res.render('auth/signup', {
     pageTitle: "signup",
     path: "/signup",
-    errorMessage: message
+    errorMessage: message,
+    oldInput: {email: "", password: "", confirmPassword: ""}
+
   });
 };
 
@@ -52,7 +54,8 @@ exports.postLogin = (req, res) => {
     return res.status(422).render('auth/login', {
       pageTitle: "login",
       path: "/login",
-      errorMessage: errors.array()[0].msg
+      errorMessage: errors.array()[0].msg,
+      
     });
   }
   User.findOne({email: email})
@@ -81,13 +84,15 @@ exports.postLogin = (req, res) => {
 exports.postSignup = (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
+  const confirmPassword = req.body.confirmPassword;
   const errors = validationResult(req);
   console.log(errors);
   if (!errors.isEmpty()) {
     return res.status(422).render('auth/signup', {
       pageTitle: "signup",
       path: "/signup",
-      errorMessage: errors.array()[0].msg
+      errorMessage: errors.array()[0].msg,
+      oldInput: {email: email, password: password, confirmPassword: confirmPassword}
     });
   }
   bcrypt
