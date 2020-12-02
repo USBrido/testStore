@@ -227,6 +227,10 @@ main {
   display: block;
 }
 
+.form-control input.invalid {
+  border-color: red
+}
+
 .user-message {
   margin: auto;
   width: 90%;

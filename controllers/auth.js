@@ -25,7 +25,8 @@ exports.getLogin = (req, res) => {
   res.render('auth/login', {
     pageTitle: "login",
     path: "/login",
-    errorMessage: message
+    errorMessage: message,
+    validationErrors: []
   });
 };
 
@@ -40,7 +41,8 @@ exports.getSignup = (req, res) => {
     pageTitle: "signup",
     path: "/signup",
     errorMessage: message,
-    oldInput: {email: "", password: "", confirmPassword: ""}
+    oldInput: {email: "", password: "", confirmPassword: ""},
+    validationErrors: []
 
   });
 };
@@ -55,7 +57,7 @@ exports.postLogin = (req, res) => {
       pageTitle: "login",
       path: "/login",
       errorMessage: errors.array()[0].msg,
-      
+      validationErrors: errors.array()
     });
   }
   User.findOne({email: email})
@@ -92,7 +94,8 @@ exports.postSignup = (req, res) => {
       pageTitle: "signup",
       path: "/signup",
       errorMessage: errors.array()[0].msg,
-      oldInput: {email: email, password: password, confirmPassword: confirmPassword}
+      oldInput: {email: email, password: password, confirmPassword: confirmPassword},
+      validationErrors: errors.array()
     });
   }
   bcrypt
